@@ -19,7 +19,7 @@
     "typescript": "^3.9.10"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf lib && tsc --project tsconfig.build.json",
     "test": "jest"
   },
   "engines": {
