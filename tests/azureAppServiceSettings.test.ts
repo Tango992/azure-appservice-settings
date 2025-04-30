@@ -1,6 +1,6 @@
 import * as core from "@actions/core"
-import { main } from "../main"
-import { Utils } from "../Utils"
+import { main } from "../src/main"
+import { Utils } from "../src/Utils"
 
 import { AzureResourceFilterUtility } from "azure-actions-appservice-rest/Utilities/AzureResourceFilterUtility"
 import { AzureAppServiceUtility } from "azure-actions-appservice-rest/Utilities/AzureAppServiceUtility"
