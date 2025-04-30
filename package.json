@@ -22,6 +22,9 @@
     "build": "tsc",
     "test": "jest"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "author": "Shivangi Mittal",
   "license": "MIT"
 }
