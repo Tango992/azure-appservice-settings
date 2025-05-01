@@ -31,11 +31,11 @@ export async function main() {
 
         // Validating parsed inputs
         const endpoint: IAuthorizer = await AuthorizerFactory.getAuthorizer()
-        console.log("Got service connection details for Azure App Service: " + webAppName)
+        core.info("Got service connection details for Azure App Service: " + webAppName)
 
         const appDetails = await AzureResourceFilterUtility.getAppDetails(endpoint, webAppName)
         const resourceGroupName = appDetails["resourceGroupName"]
-        console.log("Resource Group : " + resourceGroupName)
+        core.info("Resource Group : " + resourceGroupName)
 
         const appService: AzureAppService = new AzureAppService(endpoint, resourceGroupName, webAppName, slotName)
         const appServiceUtility: AzureAppServiceUtility = new AzureAppServiceUtility(appService)
@@ -59,7 +59,7 @@ export async function main() {
         core.setOutput("webapp-url", applicationURL)
     }
     catch (error) {
-        console.error(JSON.stringify(error))
+        core.error(JSON.stringify(error))
         core.setFailed(error)
     }
     finally {
