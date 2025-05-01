@@ -1,5 +1,6 @@
 import { ApplicationSettingElement, ConnectionStringSettingElement, GeneralSetting } from "../src/types/app-settings"
 
+/** Test fixture. */
 export const validApplicationSettings: ApplicationSettingElement[] = [
     {
         name: "foo",
@@ -17,6 +18,7 @@ export const validApplicationSettings: ApplicationSettingElement[] = [
     },
 ]
 
+/** Test fixture. */
 export const validConnectionStringSettings: ConnectionStringSettingElement[] = [
     {
         ...validApplicationSettings[0],
@@ -32,8 +34,20 @@ export const validConnectionStringSettings: ConnectionStringSettingElement[] = [
     },
 ]
 
+/** Test fixture. */
 export const validGeneralSetting: GeneralSetting = {
     hello: "world",
     foo: "bar",
     baz: "",
+}
+
+/** Test fixture. */
+export const validApplicationInputCollection = {
+    "app-name": "MOCK_APP_NAME",
+    "resource-group-name": "MOCK_RESOURCE_GROUP",
+    "mask-inputs": "false",
+    "app-kind": "MOCK_APP_KIND",
+    "app-settings-json": JSON.stringify(validApplicationSettings),
+    "connection-strings-json": JSON.stringify(validConnectionStringSettings),
+    "general-settings-json": JSON.stringify(validGeneralSetting),
 }
