@@ -1,4 +1,7 @@
 on:
+  push:
+    branches:
+      - master
   pull_request:
     branches:
       - master
@@ -6,20 +9,26 @@ on:
 jobs:
   build_test_job:
     name: 'Build and test job'
-    runs-on: ${{ matrix.os }}
-    strategy:
-        matrix:
-          os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ubuntu-latest
     steps:
 
     - name: 'Checking out repo code'
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
+
+    - name: 'Set up Node.js'
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
 
     - name: 'Validate build'
       run: |
-        npm install
+        npm ci
         npm run build
+
+    - name: 'Run Lint'
+      run: |
+        npm run lint -- --max-warnings 0
 
     - name: 'Run L0 tests'
       run: |
-        npm run test
+        npm run test -- --colors --coverage
