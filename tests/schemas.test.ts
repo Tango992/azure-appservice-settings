@@ -1,28 +1,11 @@
 import { ZodError } from "zod"
 import { ApplicationSettingsZod, ConnectionStringSettingsZod, GeneralSettingZod } from "../src/schemas"
-import { ApplicationSettingElement, ConnectionStringSettingElement, GeneralSetting } from "../src/types/app-settings"
+import { validApplicationSettings, validConnectionStringSettings, validGeneralSetting } from "./fixtures"
 
 describe("Schema validation", () => {
-    const applicationSettings: ApplicationSettingElement[] = [
-        {
-            name: "foo",
-            value: "bar",
-        },
-        {
-            name: "fufufafa",
-            value: "",
-            slotSetting: true,
-        },
-        {
-            name: "JavaScript on the server",
-            value: "was a mistake",
-            slotSetting: false,
-        },
-    ]
-
     it.each([
         [
-            applicationSettings,
+            validApplicationSettings,
             ApplicationSettingsZod,
         ],
         [
@@ -30,20 +13,7 @@ describe("Schema validation", () => {
             ApplicationSettingsZod,
         ],
         [
-            [
-                {
-                    ...applicationSettings[0],
-                    type: "PostgreSQL",
-                },
-                {
-                    ...applicationSettings[1],
-                    type: "",
-                },
-                {
-                    ...applicationSettings[2],
-                    type: "foo",
-                },
-            ] satisfies ConnectionStringSettingElement[],
+            validConnectionStringSettings,
             ConnectionStringSettingsZod,
         ],
         [
@@ -51,11 +21,7 @@ describe("Schema validation", () => {
             ConnectionStringSettingsZod,
         ],
         [
-            {
-                hello: "world",
-                foo: "bar",
-                baz: "",
-            } satisfies GeneralSetting,
+            validGeneralSetting,
             GeneralSettingZod,
         ],
         [
