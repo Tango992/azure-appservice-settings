@@ -1,5 +1,5 @@
 import { ParsedSettingCollection } from "../../src/types/dtos"
-import { parseSettings } from "../../src/utils/parse-settings"
+import parseSettings from "../../src/utils/parse-settings"
 import { validApplicationSettings, validConnectionStringSettings, validGeneralSetting } from "../fixtures"
 
 describe("Parse input settings", () => {

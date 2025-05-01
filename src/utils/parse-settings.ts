@@ -28,4 +28,4 @@ const parseSettings = (
     }
 }
 
-export { parseSettings }
+export default parseSettings
