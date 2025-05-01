@@ -1,5 +1,8 @@
 # GitHub Action for configuring Azure App service Settings
 
+> This is a fork from [Azure/appservice-settings](https://github.com/Azure/appservice-settings).
+> Changes are made to support Node.js 20, refactoring for better structure and type safety, and add tests that cover all the code paths.
+
 With the Azure App Service Actions for GitHub, you can automate your workflow to deploy [Azure Web Apps](https://azure.microsoft.com/en-us/services/app-service/web/) and configure [App settings](https://docs.microsoft.com/en-us/azure/app-service/configure-common).
 
 Get started today with a [free Azure account](https://azure.com/free/open-source)!
