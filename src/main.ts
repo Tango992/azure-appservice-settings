@@ -6,17 +6,17 @@ import { AzureAppServiceUtility } from "azure-actions-appservice-rest/Utilities/
 import { AzureResourceFilterUtility } from "azure-actions-appservice-rest/Utilities/AzureResourceFilterUtility"
 import { IAuthorizer } from "azure-actions-webclient/Authorizer/IAuthorizer"
 import { AuthorizerFactory } from "azure-actions-webclient/AuthorizerFactory"
-import { parseSettings } from "./utils/parse-settings"
 import maskValues from "./utils/mask-values"
-
-const userAgentPrefix = process.env.AZURE_HTTP_USER_AGENT || ""
+import parseSettings from "./utils/parse-settings"
+import { ZodError } from "zod"
 
 export async function main() {
+    const azureHttpUserAgent = process.env.AZURE_HTTP_USER_AGENT || ""
+
     try {
-        // Set user agent variable
         const usrAgentRepo = crypto.createHash("sha256").update(`${process.env.GITHUB_REPOSITORY}`).digest("hex")
         const actionName = "AzureAppServiceSettings"
-        const userAgentString = (userAgentPrefix ? `${userAgentPrefix}+` : "") + `GITHUBACTIONS_${actionName}_${usrAgentRepo}`
+        const userAgentString = (azureHttpUserAgent ? `${azureHttpUserAgent}+` : "") + `GITHUBACTIONS_${actionName}_${usrAgentRepo}`
         core.exportVariable("AZURE_HTTP_USER_AGENT", userAgentString)
 
         const webAppName: string = core.getInput("app-name", { required: true })
@@ -61,12 +61,20 @@ export async function main() {
         core.setOutput("webapp-url", applicationURL)
     }
     catch (error) {
-        core.error(JSON.stringify(error))
-        core.setFailed(error)
+        if (error instanceof ZodError || error instanceof SyntaxError) {
+            return core.setFailed("Invalid JSON format. Please check the JSON format of the input.")
+        }
+
+        if (error instanceof Error) {
+            return core.setFailed(error.message)
+        }
+
+        /* istanbul ignore next */
+        return core.setFailed("An unexpected error occurred.")
     }
     finally {
         // Reset AZURE_HTTP_USER_AGENT
-        core.exportVariable("AZURE_HTTP_USER_AGENT", userAgentPrefix)
+        core.exportVariable("AZURE_HTTP_USER_AGENT", azureHttpUserAgent)
     }
 }
 
