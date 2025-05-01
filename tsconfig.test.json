@@ -3,5 +3,5 @@
     "isolatedModules": true
   },
   "extends": "./tsconfig.json",
-  "exclude": ["node_modules", "lib", "**/Tests"]
+  "exclude": ["node_modules", "lib", "tests"]
 }
