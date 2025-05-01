@@ -21,6 +21,11 @@
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.31.1"
   },
+  "overrides": {
+    "azure-actions-appservice-rest":{
+      "xml2js": "^0.6.2"
+    }
+  },
   "scripts": {
     "build": "rm -rf lib && tsc --project tsconfig.build.json",
     "test": "jest"
