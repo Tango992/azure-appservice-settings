@@ -29,6 +29,11 @@ jobs:
       run: |
         npm run lint -- --max-warnings 0
 
-    - name: 'Run L0 tests'
+    - name: 'Run Tests'
       run: |
         npm run test -- --colors --coverage
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
