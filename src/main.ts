@@ -69,7 +69,6 @@ export async function main() {
             return core.setFailed(error.message)
         }
 
-        /* istanbul ignore next */
         return core.setFailed("An unexpected error occurred.")
     }
     finally {
