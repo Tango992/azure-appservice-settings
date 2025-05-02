@@ -10,6 +10,7 @@ import { AuthorizerFactory } from "azure-actions-webclient/AuthorizerFactory"
 import { AzureResourceFilterUtility } from "azure-actions-appservice-rest/Utilities/AzureResourceFilterUtility"
 import { AzureAppServiceUtility } from "azure-actions-appservice-rest/Utilities/AzureAppServiceUtility"
 import { IAuthorizer } from "azure-actions-webclient/Authorizer/IAuthorizer"
+import { AssertionError } from "assert"
 
 jest.mock("@actions/core", () => ({
     error: jest.fn(),
@@ -237,5 +238,35 @@ describe("main", () => {
 
         expect(core.setFailed).toHaveBeenCalledTimes(1)
         expect(core.setFailed).toHaveBeenCalledWith(errorMessage)
+    })
+
+    it("handles other errors", async () => {
+        getAuthorizerSpy.mockRejectedValue(new AssertionError({ message: "test" }))
+
+        jest.mocked(core.getInput).mockImplementation((key: string) => {
+            return (validApplicationInputCollection as Record<string, string | undefined>)[key] || ""
+        })
+
+        await main()
+
+        expect(core.exportVariable).toHaveBeenCalledTimes(2)
+        expect(core.exportVariable).toHaveBeenNthCalledWith(
+            1,
+            "AZURE_HTTP_USER_AGENT",
+            expect.stringMatching(/^GITHUBACTIONS_AzureAppServiceSettings_[a-z0-9]{64}/),
+        )
+        expect(core.exportVariable).toHaveBeenNthCalledWith(2, "AZURE_HTTP_USER_AGENT", "")
+
+        expect(getAuthorizerSpy).toHaveBeenCalledTimes(1)
+        expect(getAuthorizerSpy).toHaveBeenCalledWith()
+
+        expect(updateAndMonitorAppSettingsSpy).not.toHaveBeenCalled()
+        expect(updateConnectionStringsSpy).not.toHaveBeenCalled()
+        expect(updateConfigurationSettingsSpy).not.toHaveBeenCalled()
+        expect(getApplicationURLSpy).not.toHaveBeenCalled()
+        expect(core.setOutput).not.toHaveBeenCalled()
+
+        expect(core.setFailed).toHaveBeenCalledTimes(1)
+        expect(core.setFailed).toHaveBeenCalledWith("An unexpected error occurred.")
     })
 })
