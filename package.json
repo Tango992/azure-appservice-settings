@@ -36,6 +36,10 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "author": "Shivangi Mittal",
+  "author": "Daniel Osvaldo Rahmanto",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tango992/azure-appservice-settings.git"
+  },
   "license": "MIT"
 }
