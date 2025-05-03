@@ -1,6 +1,7 @@
 # GitHub Action for configuring Azure App service Settings
 
 [![codecov](https://codecov.io/gh/Tango992/azure-appservice-settings/graph/badge.svg?token=QEF9QT0V9D)](https://codecov.io/gh/Tango992/azure-appservice-settings)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Tango992/azure-appservice-settings/badge)](https://scorecard.dev/viewer/?uri=github.com/Tango992/azure-appservice-settings)
 
 > This is a fork from [Azure/appservice-settings](https://github.com/Azure/appservice-settings).
 > Changes are made to support Node.js 20, refactoring for better structure and type safety, and add tests that cover all the code paths.
