@@ -1,4 +1,4 @@
-import { default as core } from "@actions/core"
+import * as core from "@actions/core"
 import { ApplicationSettingElement, ConnectionStringSettingElement } from "../types/app-settings"
 
 type SettingElements = ApplicationSettingElement[] | ConnectionStringSettingElement[]
