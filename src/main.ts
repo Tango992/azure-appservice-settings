@@ -8,7 +8,7 @@ import { IAuthorizer } from "azure-actions-webclient/Authorizer/IAuthorizer"
 import { AuthorizerFactory } from "azure-actions-webclient/AuthorizerFactory"
 import maskValues from "./utils/mask-values"
 import parseSettings from "./utils/parse-settings"
-import { ZodError } from "zod"
+import { ZodError } from "zod/v4"
 
 export async function main() {
     const azureHttpUserAgent = process.env.AZURE_HTTP_USER_AGENT || ""

@@ -1,4 +1,4 @@
-import z from "zod"
+import z from "zod/v4"
 import { ApplicationSettingElement, ConnectionStringSettingElement, GeneralSetting } from "./types/app-settings"
 
 const ApplicationSettingElementZod = z.object({
@@ -18,6 +18,6 @@ const ConnectionStringSettingElementZod = ApplicationSettingElementZod.and(z.obj
 const ConnectionStringSettingsZod = z.array(ConnectionStringSettingElementZod)
 
 /** Zod validation schema for {@linkcode GeneralSetting}. */
-const GeneralSettingZod = z.record(z.string()) satisfies z.ZodType<GeneralSetting>
+const GeneralSettingZod = z.record(z.string(), z.string()) satisfies z.ZodType<GeneralSetting>
 
 export { ApplicationSettingsZod, ConnectionStringSettingsZod, GeneralSettingZod }
