@@ -1,4 +1,4 @@
-import { ZodError } from "zod/v4"
+import { ZodError } from "zod"
 import { ApplicationSettingsZod, ConnectionStringSettingsZod, GeneralSettingZod } from "../src/schemas"
 import { validApplicationSettings, validConnectionStringSettings, validGeneralSetting } from "./fixtures"
 
