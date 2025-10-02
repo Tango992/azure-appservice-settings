@@ -28,5 +28,5 @@ branding:
   icon: "arrow-up-circle"
   color: "blue"
 runs:
-  using: "node20"
+  using: "node24"
   main: "lib/index.js"

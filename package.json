@@ -34,7 +34,7 @@
     "lint": "eslint ."
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": "^24"
   },
   "author": "Daniel Osvaldo Rahmanto",
   "repository": {
