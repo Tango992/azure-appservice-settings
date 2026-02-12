@@ -1,4 +1,4 @@
-import { ApplicationSettingElement, ConnectionStringSettingElement, GeneralSetting } from "./app-settings"
+import { ApplicationSettingElement, ConnectionStringSettingElement, GeneralSetting } from "./app-settings.js"
 
 export type ParsedSettingCollection = {
     appSettings: ApplicationSettingElement[] | undefined

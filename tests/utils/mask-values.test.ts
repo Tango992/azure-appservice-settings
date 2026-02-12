@@ -1,19 +1,17 @@
 import * as core from "@actions/core"
-import { validApplicationSettings, validConnectionStringSettings } from "../fixtures"
-import maskValues from "../../src/utils/mask-values"
+import { afterEach, beforeEach, describe, expect, it, vi, type MockInstance } from "vitest"
+import { validApplicationSettings, validConnectionStringSettings } from "../fixtures.js"
+import maskValues from "../../src/utils/mask-values.js"
 
-jest.mock("@actions/core", () => ({
-    setSecret: jest.fn(),
+vi.mock("@actions/core", () => ({
+    setSecret: vi.fn(),
 }))
 
 describe("Mask values", () => {
-    let setSecretSpy: jest.SpyInstance<
-        ReturnType<typeof core.setSecret>,
-        Parameters<typeof core.setSecret>
-    >
+    let setSecretSpy: MockInstance
 
     beforeEach(() => {
-        setSecretSpy = jest.spyOn(core, "setSecret").mockImplementation()
+        setSecretSpy = vi.spyOn(core, "setSecret").mockReturnValue()
     })
 
     afterEach(() => {
