@@ -1,6 +1,7 @@
 import { ZodError } from "zod"
-import { ApplicationSettingsZod, ConnectionStringSettingsZod, GeneralSettingZod } from "../src/schemas"
-import { validApplicationSettings, validConnectionStringSettings, validGeneralSetting } from "./fixtures"
+import { ApplicationSettingsZod, ConnectionStringSettingsZod, GeneralSettingZod } from "../src/schemas.js"
+import { validApplicationSettings, validConnectionStringSettings, validGeneralSetting } from "./fixtures.js"
+import { describe, expect, it } from "vitest"
 
 describe("Schema validation", () => {
     it.each([

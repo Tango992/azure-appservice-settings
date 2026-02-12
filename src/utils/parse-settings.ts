@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { ZodError } from "zod"
-import { ParsedSettingCollection } from "../types/dtos"
-import { ApplicationSettingsZod, ConnectionStringSettingsZod, GeneralSettingZod } from "../schemas"
+import { ParsedSettingCollection } from "../types/dtos.js"
+import { ApplicationSettingsZod, ConnectionStringSettingsZod, GeneralSettingZod } from "../schemas.js"
 
 /**
  * Parses the application setting inputs into a JavaScript object.

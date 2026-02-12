@@ -2,9 +2,10 @@
   "name": "app-service-settings",
   "version": "1.0.7",
   "description": "Update/Add Azure WebApp settings",
+  "type": "module",
   "main": "lib/index.js",
   "dependencies": {
-    "@actions/core": "^2.0.3",
+    "@actions/core": "^3.0.0",
     "azure-actions-appservice-rest": "^1.3.35",
     "azure-actions-webclient": "^1.1.1",
     "zod": "^4.3.6"
@@ -12,15 +13,14 @@
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@stylistic/eslint-plugin": "^5.8.0",
-    "@types/jest": "^30.0.0",
-    "@types/node": "^24.10.1",
-    "@vercel/ncc": "^0.38.4",
+    "@types/node": "^24.10.13",
+    "@vitest/coverage-v8": "^4.0.18",
+    "esbuild": "^0.27.3",
     "eslint": "^9.39.1",
     "globals": "^17.3.0",
-    "jest": "^30.2.0",
-    "ts-jest": "^29.4.6",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.55.0"
+    "typescript-eslint": "^8.55.0",
+    "vitest": "^4.0.18"
   },
   "overrides": {
     "@actions/http-client": {
@@ -30,11 +30,11 @@
       "xml2js": "^0.6.2"
     },
     "glob": "^13.0.2",
-    "uuid": "^11.1.0"
+    "uuid": "^13.0.0"
   },
   "scripts": {
-    "build": "rm -rf lib && ncc build src/main.ts -o lib",
-    "test": "jest",
+    "build": "rm -rf lib && esbuild src/main.ts --bundle --platform=node --target=node24 --format=esm --outfile=lib/index.js",
+    "test": "vitest run --coverage",
     "lint": "eslint ."
   },
   "engines": {

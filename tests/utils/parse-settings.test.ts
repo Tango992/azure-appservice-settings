@@ -1,6 +1,7 @@
-import { ParsedSettingCollection } from "../../src/types/dtos"
-import parseSettings from "../../src/utils/parse-settings"
-import { validApplicationSettings, validConnectionStringSettings, validGeneralSetting } from "../fixtures"
+import { ParsedSettingCollection } from "../../src/types/dtos.js"
+import parseSettings from "../../src/utils/parse-settings.js"
+import { validApplicationSettings, validConnectionStringSettings, validGeneralSetting } from "../fixtures.js"
+import { describe, expect, it } from "vitest"
 
 describe("Parse input settings", () => {
     it("throws an error if not a single setting input was provided", () => {
