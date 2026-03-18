@@ -1,4 +1,4 @@
-import { ApplicationSettingElement, ConnectionStringSettingElement, GeneralSetting } from "../src/types/app-settings"
+import { ApplicationSettingElement, ConnectionStringSettingElement, GeneralSetting } from "../src/types/app-settings.js"
 
 /** Test fixture. */
 export const validApplicationSettings: ApplicationSettingElement[] = [

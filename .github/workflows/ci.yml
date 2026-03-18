@@ -23,7 +23,7 @@ jobs:
     - name: 'Set up Node.js'
       uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
       with:
-        node-version: '20'
+        node-version: '^24.13.1'
 
     - name: 'Validate build'
       run: |
@@ -35,8 +35,10 @@ jobs:
         npm run lint -- --max-warnings 0
 
     - name: 'Run Tests'
+      env:
+        FORCE_COLOR: 1
       run: |
-        npm run test -- --colors --coverage
+        npm run test
 
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2

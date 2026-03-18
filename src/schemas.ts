@@ -1,5 +1,5 @@
 import z from "zod"
-import { ApplicationSettingElement, ConnectionStringSettingElement, GeneralSetting } from "./types/app-settings"
+import { ApplicationSettingElement, ConnectionStringSettingElement, GeneralSetting } from "./types/app-settings.js"
 
 const ApplicationSettingElementZod = z.object({
     name: z.string(),

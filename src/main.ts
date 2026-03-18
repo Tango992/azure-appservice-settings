@@ -1,13 +1,12 @@
 import * as core from "@actions/core"
 import * as crypto from "crypto"
 
-import { AzureAppService } from "azure-actions-appservice-rest/Arm/azure-app-service"
-import { AzureAppServiceUtility } from "azure-actions-appservice-rest/Utilities/AzureAppServiceUtility"
-import { AzureResourceFilterUtility } from "azure-actions-appservice-rest/Utilities/AzureResourceFilterUtility"
-import { IAuthorizer } from "azure-actions-webclient/Authorizer/IAuthorizer"
-import { AuthorizerFactory } from "azure-actions-webclient/AuthorizerFactory"
-import maskValues from "./utils/mask-values"
-import parseSettings from "./utils/parse-settings"
+import { AzureAppService } from "azure-actions-appservice-rest/Arm/azure-app-service.js"
+import { AzureAppServiceUtility } from "azure-actions-appservice-rest/Utilities/AzureAppServiceUtility.js"
+import { AzureResourceFilterUtility } from "azure-actions-appservice-rest/Utilities/AzureResourceFilterUtility.js"
+import { AuthorizerFactory } from "azure-actions-webclient/AuthorizerFactory.js"
+import maskValues from "./utils/mask-values.js"
+import parseSettings from "./utils/parse-settings.js"
 import { ZodError } from "zod/v4"
 
 export async function main() {
@@ -29,15 +28,15 @@ export async function main() {
             core.getInput("general-settings-json", { required: false }),
         )
 
-        const endpoint: IAuthorizer = await AuthorizerFactory.getAuthorizer()
+        const endpoint = await AuthorizerFactory.getAuthorizer()
         core.info("Got service connection details for Azure App Service: " + webAppName)
 
         const appDetails = await AzureResourceFilterUtility.getAppDetails(endpoint, webAppName)
         const resourceGroupName = appDetails["resourceGroupName"]
         core.info("Resource Group : " + resourceGroupName)
 
-        const appService: AzureAppService = new AzureAppService(endpoint, resourceGroupName, webAppName, slotName)
-        const appServiceUtility: AzureAppServiceUtility = new AzureAppServiceUtility(appService)
+        const appService = new AzureAppService(endpoint, resourceGroupName, webAppName, slotName)
+        const appServiceUtility = new AzureAppServiceUtility(appService)
 
         const promises: Promise<unknown>[] = []
 

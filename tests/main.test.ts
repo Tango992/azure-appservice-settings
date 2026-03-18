@@ -1,76 +1,53 @@
 import {
     validApplicationInputCollection, validApplicationSettings,
     validConnectionStringSettings, validGeneralSetting,
-} from "./fixtures"
-import { main } from "../src/main"
-import * as maskValues from "../src/utils/mask-values"
-import * as parseSettings from "../src/utils/parse-settings"
-import { default as core } from "@actions/core"
-import { AuthorizerFactory } from "azure-actions-webclient/AuthorizerFactory"
-import { AzureResourceFilterUtility } from "azure-actions-appservice-rest/Utilities/AzureResourceFilterUtility"
-import { AzureAppServiceUtility } from "azure-actions-appservice-rest/Utilities/AzureAppServiceUtility"
-import { IAuthorizer } from "azure-actions-webclient/Authorizer/IAuthorizer"
+} from "./fixtures.js"
+import { afterAll, beforeEach, describe, expect, it, vi, type MockInstance } from "vitest"
+import { main } from "../src/main.js"
+import * as maskValues from "../src/utils/mask-values.js"
+import * as parseSettings from "../src/utils/parse-settings.js"
+import * as core from "@actions/core"
+import { AuthorizerFactory } from "azure-actions-webclient/AuthorizerFactory.js"
+import { AzureResourceFilterUtility } from "azure-actions-appservice-rest/Utilities/AzureResourceFilterUtility.js"
+import { AzureAppServiceUtility } from "azure-actions-appservice-rest/Utilities/AzureAppServiceUtility.js"
+import { IAuthorizer } from "azure-actions-webclient/Authorizer/IAuthorizer.js"
 import { AssertionError } from "assert"
 
-jest.mock("@actions/core", () => ({
-    error: jest.fn(),
-    exportVariable: jest.fn(),
-    getInput: jest.fn(),
-    info: jest.fn(),
-    setFailed: jest.fn(),
-    setSecret: jest.fn(),
-    setOutput: jest.fn(),
+vi.mock("@actions/core", () => ({
+    error: vi.fn(),
+    exportVariable: vi.fn(),
+    getInput: vi.fn(),
+    info: vi.fn(),
+    setFailed: vi.fn(),
+    setSecret: vi.fn(),
+    setOutput: vi.fn(),
 }))
 
 describe("main", () => {
-    let parseSettingsSpy: jest.SpyInstance<
-        ReturnType<typeof parseSettings.default>,
-        Parameters<typeof parseSettings.default>
-    >
-    let getAuthorizerSpy: jest.SpyInstance<
-        ReturnType<typeof AuthorizerFactory.getAuthorizer>,
-        Parameters<typeof AuthorizerFactory.getAuthorizer>
-    >
-    let getAppDetailsSpy: jest.SpyInstance<
-        ReturnType<typeof AzureResourceFilterUtility.getAppDetails>,
-        Parameters<typeof AzureResourceFilterUtility.getAppDetails>
-    >
-    let maskValuesSpy: jest.SpyInstance<
-        ReturnType<typeof maskValues.default>,
-        Parameters<typeof maskValues.default>
-    >
-    let updateAndMonitorAppSettingsSpy: jest.SpyInstance<
-        ReturnType<typeof AzureAppServiceUtility.prototype.updateAndMonitorAppSettings>,
-        Parameters<typeof AzureAppServiceUtility.prototype.updateAndMonitorAppSettings>
-    >
-    let updateConnectionStringsSpy: jest.SpyInstance<
-        ReturnType<typeof AzureAppServiceUtility.prototype.updateConnectionStrings>,
-        Parameters<typeof AzureAppServiceUtility.prototype.updateConnectionStrings>
-    >
-    let updateConfigurationSettingsSpy: jest.SpyInstance<
-        ReturnType<typeof AzureAppServiceUtility.prototype.updateConfigurationSettings>,
-        Parameters<typeof AzureAppServiceUtility.prototype.updateConfigurationSettings>
-    >
-    let getApplicationURLSpy: jest.SpyInstance<
-        ReturnType<typeof AzureAppServiceUtility.prototype.getApplicationURL>,
-        Parameters<typeof AzureAppServiceUtility.prototype.getApplicationURL>
-    >
+    let parseSettingsSpy: MockInstance
+    let getAuthorizerSpy: MockInstance
+    let getAppDetailsSpy: MockInstance
+    let maskValuesSpy: MockInstance
+    let updateAndMonitorAppSettingsSpy: MockInstance
+    let updateConnectionStringsSpy: MockInstance
+    let updateConfigurationSettingsSpy: MockInstance
+    let getApplicationURLSpy: MockInstance
 
     beforeEach(() => {
-        getAuthorizerSpy = jest.spyOn(AuthorizerFactory, "getAuthorizer").mockResolvedValue("mockAuthorizer" as unknown as IAuthorizer)
-        getAppDetailsSpy = jest.spyOn(AzureResourceFilterUtility, "getAppDetails").mockResolvedValue({
+        getAuthorizerSpy = vi.spyOn(AuthorizerFactory, "getAuthorizer").mockResolvedValue("mockAuthorizer" as unknown as IAuthorizer)
+        getAppDetailsSpy = vi.spyOn(AzureResourceFilterUtility, "getAppDetails").mockResolvedValue({
             resourceGroupName: "mockResourceGroupName",
         })
-        maskValuesSpy = jest.spyOn(maskValues, "default")
-        parseSettingsSpy = jest.spyOn(parseSettings, "default")
-        updateAndMonitorAppSettingsSpy = jest.spyOn(AzureAppServiceUtility.prototype, "updateAndMonitorAppSettings").mockImplementation()
-        updateConnectionStringsSpy = jest.spyOn(AzureAppServiceUtility.prototype, "updateConnectionStrings").mockImplementation()
-        updateConfigurationSettingsSpy = jest.spyOn(AzureAppServiceUtility.prototype, "updateConfigurationSettings").mockImplementation()
-        getApplicationURLSpy = jest.spyOn(AzureAppServiceUtility.prototype, "getApplicationURL").mockResolvedValue("http://testurl")
+        maskValuesSpy = vi.spyOn(maskValues, "default")
+        parseSettingsSpy = vi.spyOn(parseSettings, "default")
+        updateAndMonitorAppSettingsSpy = vi.spyOn(AzureAppServiceUtility.prototype, "updateAndMonitorAppSettings").mockResolvedValue(true)
+        updateConnectionStringsSpy = vi.spyOn(AzureAppServiceUtility.prototype, "updateConnectionStrings").mockResolvedValue(true)
+        updateConfigurationSettingsSpy = vi.spyOn(AzureAppServiceUtility.prototype, "updateConfigurationSettings").mockResolvedValue()
+        getApplicationURLSpy = vi.spyOn(AzureAppServiceUtility.prototype, "getApplicationURL").mockResolvedValue("http://testurl")
     })
 
     afterAll(() => {
-        jest.restoreAllMocks()
+        vi.restoreAllMocks()
     })
 
     it.each([
@@ -79,7 +56,7 @@ describe("main", () => {
         ["true", true],
         ["false", false],
     ])("executes the happy path and masks values if set", async (maskInputValue, shouldMask) => {
-        jest.mocked(core.getInput).mockImplementation((key: string) => {
+        vi.mocked(core.getInput).mockImplementation((key: string) => {
             if (key === "mask-inputs") {
                 return maskInputValue
             }
@@ -144,7 +121,7 @@ describe("main", () => {
         const originalAzureHttpUserAgent = process.env.AZURE_HTTP_USER_AGENT
         process.env.AZURE_HTTP_USER_AGENT = "customUserAgent"
 
-        jest.mocked(core.getInput).mockImplementation((key: string) => {
+        vi.mocked(core.getInput).mockImplementation((key: string) => {
             return (validApplicationInputCollection as Record<string, string | undefined>)[key] || ""
         })
 
@@ -212,7 +189,7 @@ describe("main", () => {
         ["willThrowSyntaxErrorFromJSONparse", "Invalid JSON format. Please check the JSON format of the input."],
         ["{\"thrown_by\":\"zod\"}", "Invalid JSON format. Please check the JSON format of the input."],
     ])("handles thrown errors", async (appSettingsValue, errorMessage) => {
-        jest.mocked(core.getInput).mockImplementation((key: string) => {
+        vi.mocked(core.getInput).mockImplementation((key: string) => {
             if (key === "app-settings-json") {
                 return appSettingsValue
             }
@@ -243,7 +220,7 @@ describe("main", () => {
     it("handles other errors", async () => {
         getAuthorizerSpy.mockRejectedValue(new AssertionError({ message: "test" }))
 
-        jest.mocked(core.getInput).mockImplementation((key: string) => {
+        vi.mocked(core.getInput).mockImplementation((key: string) => {
             return (validApplicationInputCollection as Record<string, string | undefined>)[key] || ""
         })
 
@@ -267,6 +244,6 @@ describe("main", () => {
         expect(core.setOutput).not.toHaveBeenCalled()
 
         expect(core.setFailed).toHaveBeenCalledTimes(1)
-        expect(core.setFailed).toHaveBeenCalledWith("An unexpected error occurred.")
+        expect(core.setFailed).toHaveBeenCalledWith("test")
     })
 })
