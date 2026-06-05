@@ -1,6 +1,5 @@
 import * as core from "@actions/core"
 import * as crypto from "crypto"
-
 import { AzureAppService } from "azure-actions-appservice-rest/Arm/azure-app-service.js"
 import { AzureAppServiceUtility } from "azure-actions-appservice-rest/Utilities/AzureAppServiceUtility.js"
 import { AzureResourceFilterUtility } from "azure-actions-appservice-rest/Utilities/AzureResourceFilterUtility.js"
@@ -68,7 +67,7 @@ export async function main() {
             return core.setFailed(error.message)
         }
 
-        return core.setFailed("An unexpected error occurred.")
+        return core.setFailed(`An unexpected error occurred: ${error}`)
     }
     finally {
         // Reset AZURE_HTTP_USER_AGENT

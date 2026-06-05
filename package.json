@@ -1,6 +1,6 @@
 {
   "name": "app-service-settings",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Update/Add Azure WebApp settings",
   "type": "module",
   "main": "lib/index.js",
@@ -13,14 +13,14 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@stylistic/eslint-plugin": "^5.10.0",
-    "@types/node": "^25.8.0",
-    "@vitest/coverage-v8": "^4.1.6",
+    "@types/node": "^24.13.0",
+    "@vitest/coverage-v8": "^4.1.8",
     "esbuild": "^0.28.0",
-    "eslint": "^10.4.0",
+    "eslint": "^10.4.1",
     "globals": "^17.6.0",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.59.3",
-    "vitest": "^4.1.6"
+    "typescript-eslint": "^8.60.1",
+    "vitest": "^4.1.8"
   },
   "overrides": {
     "@actions/http-client": {
@@ -29,6 +29,7 @@
     "azure-actions-appservice-rest": {
       "xml2js": "^0.6.2"
     },
+    "brace-expansion": "^5.0.5",
     "glob": "^13.0.2",
     "uuid": "^13.0.0"
   },
