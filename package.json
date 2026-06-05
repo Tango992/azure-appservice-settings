@@ -1,6 +1,6 @@
 {
   "name": "app-service-settings",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Update/Add Azure WebApp settings",
   "type": "module",
   "main": "lib/index.js",
